@@ -103,6 +103,43 @@ int main()
 void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
 {
 	/* add your code here */
+	if (ll == NULL || ll->head == NULL || ll->size == 0) {
+		return;
+	}
+
+	// 메모리 누수 해결 : 2회 이상 호출될 경우, 이전 분할에서 할당된 노드들을 먼저 해제한다.
+	removeAllItems(resultFrontList);
+	removeAllItems(resultBackList);
+
+	// ll의 요소가 1개 이하 경우
+	if (ll->size <= 1) {
+		resultFrontList->head = ll->head;
+		resultFrontList->size = ll->size;
+		ll->head = NULL;
+		ll->size = 0;
+		return;
+	}
+
+	int front_size = (ll->size / 2) + (ll->size % 2);
+	int back_size = ll->size - front_size;
+
+	ListNode *front_tail = ll->head;
+
+	for (int i = 0; i < front_size - 1; i++) {
+		front_tail = front_tail->next;
+	}
+
+	resultFrontList->head = ll->head;
+	resultFrontList->size = front_size;
+	resultBackList->head = front_tail->next;
+	resultBackList->size = back_size;
+
+	// frontList 와 backList 의 연결을 끊어준다.
+	front_tail->next = NULL;
+
+	// ll 이 frontList, backList 로 분할되었으므로, ll 은 비워준다.
+	ll->head = NULL;
+	ll->size = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
