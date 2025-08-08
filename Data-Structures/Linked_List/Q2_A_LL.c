@@ -103,7 +103,60 @@ int main()
 
 void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
 {
-    /* add your code here */
+	// ll1 또는 ll2가 비어있는 경우
+	if (ll1 == NULL || ll1->head == NULL) {
+		if (ll2 != NULL) {
+			// ll1이 비어있고 ll2가 비어있지 않다면, ll1에 ll2의 모든 노드를 할당한다.
+			*ll1 = *ll2;
+			ll2->head = NULL;
+			ll2->size = 0;
+		}
+		return;
+	}
+
+	// ll2가 비어있는 경우, 병합할 노드가 없으니까 함수를 종료한다.
+	if (ll2 == NULL || ll2->head == NULL) {
+		return;
+	}
+
+	// ll1, ll2의 현재 노드를 추적할 포인터
+	ListNode *cur1 = ll1->head;
+	ListNode *cur2 = ll2->head;
+
+	// 삽입된 노드의 개수를 추적하기 -> ll1의 size를 나중에 업데이트할 때 사용
+	int merged_nodes_count = 0;
+
+	// ll1과 ll2에 모두 노드가 있는 동안 반복
+	while (cur1 != NULL && cur2 != NULL)
+	{
+		// 다음 노드로 이동하기 전에, 현재 위치의 다음 노드를 임시 변수에 저장하기
+		ListNode *temp1 = cur1->next;
+		ListNode *temp2 = cur2->next;
+
+		// ll2의 현재 노드(cur2)를 ll1의 다음 위치에 삽입
+		cur1->next = cur2;
+
+		// ll1의 원래 다음 노드였던 temp1을 ll2의 현재 노드 다음으로 연결
+		cur2->next = temp1;
+
+		// 다음 반복을 위해 포인터 이동
+		cur1 = temp1;
+		cur2 = temp2;
+		merged_nodes_count++;
+	}
+
+	// ll1에 삽입된 노드의 개수만큼 ll1의 size를 업데이트하기
+	ll1->size += merged_nodes_count;
+
+	// ll2의 head 를 ll2의 남은 노드로 업데이트하기
+	ll2->head = cur2;
+
+	int remaining_nodes_count = 0;
+	while (cur2 != NULL) {
+		remaining_nodes_count++;
+		cur2 = cur2->next;
+	}
+	ll2->size = remaining_nodes_count;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
