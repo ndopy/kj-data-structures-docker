@@ -1,1 +1,8 @@
+# Mac OS
 .DS_Store
+
+# JetBrains IDE
+.idea
+
+# 실행 파일
+Q*_*_**
