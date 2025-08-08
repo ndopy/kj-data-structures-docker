@@ -87,6 +87,55 @@ int main()
 void moveOddItemsToBack(LinkedList *ll)
 {
 	/* add your code here */
+	if (ll == NULL || ll->head == NULL || ll->size == 0) {
+		return;
+	}
+
+	// 짝수만 담을 리스트
+	ListNode* even_head = NULL;
+	ListNode* even_tail = NULL;
+
+	// 홀수만 담을 리스트
+	ListNode* odd_head = NULL;
+	ListNode* odd_tail = NULL;
+
+	// ll의 첫 번째 노드부터 순회하기
+	ListNode* cur = ll->head;
+
+	while (cur != NULL) {
+		ListNode* nextNode = cur->next;   // 현재 노드의 다음 노드를 nextNode 로 가리키고
+		cur->next = NULL;				  // 현재 노드를 분리한다.
+
+		if (cur->item % 2 == 0) { // 현재 노드의 값이 짝수라면
+			if (even_head == NULL) { // 아직 짝수 리스트에 아무 노드도 없다면
+				even_head = cur;
+				even_tail = cur;
+			} else {
+				even_tail->next = cur;
+				even_tail = cur;
+			}
+		} else {
+			// 현재 노드의 값이 홀수라면
+			if (odd_head == NULL) {
+				odd_head = cur;
+				odd_tail = cur;
+			} else {
+				odd_tail->next = cur;
+				odd_tail = cur;
+			}
+		}
+
+		cur = nextNode;
+	}
+
+	// 짝수 리스트가 비어 있는 경우 -> 홀수 리스트만 붙이면 된다.
+	if (even_head == NULL) {
+		ll->head = odd_head;
+	} else {
+		even_tail->next = odd_head;
+		ll->head = even_head;
+	}
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
