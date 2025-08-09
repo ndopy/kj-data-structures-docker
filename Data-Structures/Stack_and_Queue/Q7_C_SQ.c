@@ -8,6 +8,7 @@ Purpose: Implementing the required functions for Question 7 */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define MIN_INT -1000
 
@@ -104,7 +105,38 @@ int main()
 ////////////////////////////////////////////////////////////
 int balanced(char *expression)
 {
-/* add your code here */
+	// 괄호 문자를 저장할 스택 선언
+	Stack s;
+	s.ll.head = NULL;
+	s.ll.size = 0;
+
+	for (int i = 0; i < strlen(expression); i++) {
+		char ch = expression[i];
+
+		// 현재 문자가 (, {, [ 와 같이 여는 괄호라면 스택에 넣는다.
+		if (ch == '(' || ch == '{' || ch == '[') {
+			push(&s, ch);
+		} else {
+			// 현재 문자가 ), }, ] 같이 닫는 괄호인데, 스택이 비어있다면
+			if (isEmptyStack(&s)) {
+				return 1;			// 짝이 맞지 않으므로 1을 반환한다.
+			}
+
+			// 스택에서 peek 해보기 : 여는 괄호 (, {, [ 중 하나를 가리키고 있을 것.
+			int top = peek(&s);
+
+			// 짝이 맞는 경우에는 스택에서 pop 한다.
+			if ((top == '(' && ch == ')') || (top == '{' && ch == '}') || (top == '[' && ch == ']')) {
+				pop(&s);
+			} else { // 짝이 맞지 않으면 즉시 1을 반환한다.
+				return 1;
+			}
+		}
+	}
+
+	// 스택이 비어있으면 모든 괄호의 짝이 맞는 것이니까 0을 반환하고,
+	// 그렇지 않다면 짝이 맞지 않는 것이므로 1을 반환한다.
+	return isEmptyStack(&s) ? 0 : 1;
 }
 
 ////////////////////////////////////////////////////////////
