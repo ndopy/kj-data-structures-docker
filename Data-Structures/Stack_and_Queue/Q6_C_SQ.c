@@ -111,7 +111,11 @@ int main()
 
 void removeUntil(Stack *s, int value)
 {
-/* add your code here */
+	// 스택의 안의 값이 value인 아이템 이전까지만 pop 해야 한다.
+	while (!isEmptyStack(s) && peek(s) != value) {
+		pop(s);
+	}
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////
