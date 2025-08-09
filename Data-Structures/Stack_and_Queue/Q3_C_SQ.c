@@ -91,7 +91,7 @@ int main()
 			removeAllItems(&(s.ll));
 			break;
 		default:
-			printf("Choice unknown;\n");
+			printf("Choice un0nown;\n");
 			break;
 		}
 	}
@@ -103,7 +103,27 @@ int main()
 
 int isStackPairwiseConsecutive(Stack *s)
 {
-  /* add your code here */
+	if (s == NULL || s->ll.size == 0) {
+		return 0;
+	}
+
+	// 스택의 크기가 홀수라면 : 마지막에 남는 요소가 있으므로 쌍을 이루지 못한다.
+	if (s->ll.size % 2 == 1) {
+		return 0;
+	}
+
+	while (!isEmptyStack(s)) {
+		// 스택에서 아이템을 2개 꺼낸다.
+		int item1 = pop(s);
+		int item2 = pop(s);
+
+		if (abs(item1 - item2) != 1) {
+			// 연속된 요소가 아니라면
+			return 0;
+		}
+	}
+
+	return 1;
 }
 
 //////////////////////////////////////////////////////////////////////////////////
