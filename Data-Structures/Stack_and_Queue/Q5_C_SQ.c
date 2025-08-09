@@ -107,9 +107,14 @@ int main()
 
 ////////////////////////////////////////////////////////////
 
-void recursiveReverse(Queue *q)
-{
-/* add your code here */
+void recursiveReverse(Queue *q) {
+	int item;
+
+	if (q->ll.head == NULL) return;
+
+	item = dequeue(q);
+	recursiveReverse(q);
+	enqueue(q, item);
 }
 
 //////////////////////////////////////////////////////////////////
