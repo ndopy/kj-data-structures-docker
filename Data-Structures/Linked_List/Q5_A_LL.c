@@ -107,10 +107,6 @@ void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, Linke
 		return;
 	}
 
-	// 메모리 누수 해결 : 2회 이상 호출될 경우, 이전 분할에서 할당된 노드들을 먼저 해제한다.
-	removeAllItems(resultFrontList);
-	removeAllItems(resultBackList);
-
 	// ll의 요소가 1개 이하 경우
 	if (ll->size <= 1) {
 		resultFrontList->head = ll->head;
