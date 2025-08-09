@@ -68,6 +68,7 @@ int main()
 			printList(&ll);
 			break;
 		case 2:
+			printf("case 2 execute");
 			moveMaxToFront(&(ll.head));  // You need to code this function
 			printf("The resulting linked list after moving largest stored value to the front of the list is: ");
 			printList(&ll);
@@ -88,7 +89,52 @@ int main()
 
 int moveMaxToFront(ListNode **ptrHead)
 {
-    /* add your code here */
+    // 예외 처리 : 빈 리스트이거나 유효하지 않은 포인터인 경우
+	if (ptrHead == NULL || *ptrHead == NULL) {
+		return -1;
+	}
+
+	// 리스트에 노드가 하나만 있다면 : 이동할 필요가 없다.
+	if ((*ptrHead)->next == NULL) {
+		return 0;
+	}
+
+	ListNode *current = *ptrHead;		// 리스트를 순회할 노드
+	ListNode *prev_of_current = NULL;   // current 이전 노드
+	ListNode *max_node = *ptrHead;      // 현재까지 발견한 최대값을 가진 노드
+	ListNode *prev_of_max_node = NULL;  // max_node 이전 노드
+	int max_value = (*ptrHead)->item;   // 현재까지의 최대값
+
+	while (current != NULL) {
+		// 최대값인지 비교하기
+		if (current->item > max_value) {
+			max_value = current->item;
+			max_node = current;
+			prev_of_max_node = prev_of_current;
+		}
+
+		// 다음 노드로 이동하기 전에 현재 노드를 prev_of_current 로 저장
+		prev_of_current = current;
+		current = current->next;
+	}
+	// while 문이 종료되면 max_value, max_node, prev_of_max_node 가 결정된다.
+
+	// 만약 max_node 가 head 라면 : 리스트를 변경할 필요가 없다.
+	if (max_node == *ptrHead) {
+		return 0;
+	}
+
+	// 1. max_node 분리하기
+	// prev_of_max_node 의 next 를 max_node 의 다음 노드를 가리키도록 연결하기
+	if (prev_of_max_node != NULL) {
+		prev_of_max_node->next = max_node->next;
+	}
+
+	// 2. max_node 를 새로운 head 로 만들기
+	max_node->next = *ptrHead;
+	*ptrHead = max_node;
+
+	return 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////
