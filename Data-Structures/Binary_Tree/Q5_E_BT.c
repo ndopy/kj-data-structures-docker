@@ -105,7 +105,17 @@ int main()
 
 void mirrorTree(BTNode *node)
 {
-	/* add your code here */
+    // Base case : 노드가 없으면 함수를 종료한다.
+    if (node == NULL) return;
+
+    BTNode *temp;
+
+    temp = node->left;
+    node->left = node->right;
+    node->right = temp;
+
+    mirrorTree(node->left);
+    mirrorTree(node->right);
 }
 
 //////////////////////////////////////////////////////////////////////////////////
