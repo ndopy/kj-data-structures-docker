@@ -6,6 +6,7 @@ Purpose: Implementing the required functions for Question 7 */
 
 //////////////////////////////////////////////////////////////////////////////////
 
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -100,9 +101,24 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-int smallestValue(BTNode *node)
-{
-	/* add your code here */
+int smallestValue(BTNode *node) {
+    /* add your code here */
+    if (node == NULL) return INT_MAX;
+
+    int current_min_value = node->item;
+    int left_min_value = smallestValue(node->left);
+    int right_min_value = smallestValue(node->right);
+
+    // 현재 노드의 값, 왼쪽 서브 트리의 최소값, 오른쪽 서브 트리의 최소값 중 가장 작은 값 찾기
+    if (left_min_value < current_min_value ) {
+        current_min_value = left_min_value;
+    }
+
+    if (right_min_value < current_min_value) {
+        current_min_value = right_min_value;
+    }
+
+    return current_min_value;
 }
 
 //////////////////////////////////////////////////////////////////////////////////
