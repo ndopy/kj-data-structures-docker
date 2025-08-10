@@ -100,9 +100,22 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-int hasGreatGrandchild(BTNode *node)
-{
-	/* add your code here */
+int hasGreatGrandchild(BTNode *node) {
+    if (node == NULL) return -1;
+
+    // 증손자 노드가 존재하는지 확인
+    // 각 단계마다 NULL 체크를 해줘야 함
+    if ((node->left && node->left->left && (node->left->left->left || node->left->left->right)) ||
+        (node->left && node->left->right && (node->left->right->left || node->left->right->right)) ||
+        (node->right && node->right->left && (node->right->left->left || node->right->left->right)) ||
+        (node->right && node->right->right && (node->right->right->left || node->right->right->right)) ) {
+            printf("%d ", node->item);
+        }
+
+    hasGreatGrandchild(node->left);
+    hasGreatGrandchild(node->right);
+
+    return 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////
