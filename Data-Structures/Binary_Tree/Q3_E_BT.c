@@ -98,10 +98,20 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-int countOneChildNodes(BTNode *node)
+int countOneChildNodes(BTNode *node) {
+    // 루트 노드가 null 이면 0을 반환
+    if (node == NULL) return 0;
 
-{
-    /* add your code here */
+    // 현재 노드가 한쪽 자식만 가지고 있는지 확인
+    int current_node_count = 0;
+
+    int only_left_NULL = (node->left == NULL && node->right != NULL);  // 왼쪽 자식 노드만 없는 경우
+    int only_right_NULL = (node->left != NULL && node->right == NULL); // 오른쪽 자식 노드만 없는 경우
+
+    if (only_left_NULL || only_right_NULL) {
+        current_node_count = 1;
+    }
+    return current_node_count + countOneChildNodes(node->left) + countOneChildNodes(node->right);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
