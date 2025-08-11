@@ -88,9 +88,37 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void inOrderTraversal(BSTNode *root)
-{
-	 /* add your code here */
+void inOrderTraversal(BSTNode *root) {
+    /* add your code here */
+	Stack stack;
+	stack.top = NULL;
+
+	// 스택이 비어 있지 않다면 비우기
+	if (!isEmpty(&stack)) {
+		while (!isEmpty(&stack)) {
+			pop(&stack);
+		}
+	}
+
+	BSTNode* current = root;
+
+	while (current != NULL || !isEmpty(&stack)) {
+
+		while (current != NULL) {
+			// 왼쪽 자식 노드들을 스택에 모두 푸시하기
+			push(&stack, current);
+			current = current->left;
+		}
+
+		// while 문이 끝나면 왼쪽 끝에 도달하면 스택에서 노드를 팝하기
+		current = pop(&stack);
+
+		// pop한 노드의 값 출력하기
+		printf("%d ", current->item);
+
+		// pop한 노드의 오른쪽 자식으로 이동해서 다음 반복
+		current = current->right;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
