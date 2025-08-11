@@ -151,61 +151,67 @@ void insertBSTNode(BSTNode **node, int value){
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void push(Stack *stack, BSTNode * node)
-{
-	StackNode *temp;
 
+void push(Stack *stack, BSTNode *node) {
+	// 새로운 스택 노드를 위한 메모리 할당
+	StackNode *temp;
 	temp = malloc(sizeof(StackNode));
 
+	// 메모리 할당 실패 시 함수 종료
 	if (temp == NULL)
 		return;
+	// 새로운 노드에 BST 노드 데이터 저장
 	temp->data = node;
 
-	if (stack->top == NULL)
-	{
-		stack->top = temp;
-		temp->next = NULL;
+	// 스택이 비어있는 경우
+	if (stack->top == NULL) {
+		stack->top = temp;   // 새로운 노드가 top 이 된다.
+		temp->next = NULL;   // 아직 노드가 1개 뿐이므로, 가리킬 다음 노드가 없다.
 	}
+	// 스택이 비어있지 않은 경우 = 다른 노드들이 이미 들어있는 경우
 	else
 	{
-		temp->next = stack->top;
-		stack->top = temp;
+		temp->next = stack->top; // 현재 top을 가리키고 있는 노드를 새로 생성한 다음 노드의 next 로 가리킨다.
+		stack->top = temp;       // 새로 생성한 노드를 top 으로 가리키게 한다.
 	}
 }
 
 BSTNode * pop(Stack * s)
 {
-	StackNode *temp, *t;
-	BSTNode * ptr;
+	StackNode *temp, *t;    // temp: 삭제될 노드의 다음 노드를 임시로 가리킬 포인터
+							// t: 스택의 현재 top을 가리킬 포인터
+	BSTNode * ptr;          // 스택에서 꺼내질 BSTNode의 주소를 가진 포인터
 	ptr = NULL;
 
-	t = s->top;
-	if (t != NULL)
+	t = s->top;             // 포인터 t가 현재 맨 위 노드를 바라본다.
+	if (t != NULL)          // top != NULL, 즉 스택이 비어 있지 않다면
 	{
-		temp = t->next;
-		ptr = t->data;
+		temp = t->next;     // temp 포인터가 "현재 맨 위 노드의 다음 노드"를 가리키도록 한다.
+		ptr = t->data;      // t가 가리키는 맨 위 스택 노드가 담고 있는 BSTNode 의 주소를 ptr 에 저장한다.
 
-		s->top = temp;
-		free(t);
-		t = NULL;
+		s->top = temp;      // top이 가리키는 노드를 temp 로 변경한다. -> 맨 위 노드는 스택에서 분리된다.
+		free(t);            // 기존 top이 가리키는 노드의 메모리를 해제한다.
+		t = NULL;           // 메모리 주소도 NULL 로 초기화한다.
 	}
 
-	return ptr;
+	return ptr;             // 스택에서 꺼낸 BSTNode 의 주소가 반환된다.
 }
+
 
 BSTNode * peek(Stack * s)
 {
-	StackNode *temp;
+	StackNode *temp;		// 스택의 맨 위 노드를 가리킬 임시 포인터
 	temp = s->top;
-	if (temp != NULL)
-		return temp->data;
+	if (temp != NULL)		// 스택이 비어있지 않다면
+		return temp->data;  // 스택의 맨 위 노드의 주소를 반환한다.
 	else
-		return NULL;
+		return NULL;        // 스택이 비어있다면 NULL 을 반환한다.
 }
+
 
 int isEmpty(Stack *s)
 {
-	if (s->top == NULL)
+	if (s->top == NULL)     // 스택이 비어 있다면 1, 그렇지 않다면 0을 반환한다.
 		return 1;
 	else
 		return 0;
