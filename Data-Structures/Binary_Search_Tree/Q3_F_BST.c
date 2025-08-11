@@ -89,9 +89,33 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void preOrderIterative(BSTNode *root)
-{
-	 /* add your code here */
+void preOrderIterative(BSTNode *root) {
+	Stack stack;
+	stack.top = NULL;
+
+	// Q. 스택을 항상 새로 만드는데, 왜 비워줘야 하지?
+	if (!isEmpty(&stack)) {
+		while (isEmpty(&stack)) {
+			pop(&stack);
+		}
+	}
+
+	// 루트 노드를 스택에 넣는다.
+	push(&stack, root);
+
+	while (!isEmpty(&stack)) {
+		// 스택에서 꺼낸다.
+		BSTNode* current = pop(&stack);
+		printf("%d ", current->item);
+
+		if (current->right != NULL) {
+			push(&stack, current->right);
+		}
+
+		if (current->left != NULL) {
+			push(&stack, current->left);
+		}
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
