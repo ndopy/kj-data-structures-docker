@@ -171,7 +171,7 @@ void enqueue(QueueNode **headPtr, QueueNode **tailPtr, BSTNode *node)
 	// if newPtr does not equal NULL
 	if (newPtr != NULL) {		// 메모리 할당에 성공했으면
 		newPtr->data = node;    // 큐 노드의 data 필드에 node 주소 저장.
-		newPtr->nextPtr = NULL; // 새 노드는 큐의 마지막에 위치하니까 다음 노드를 가리키는 포인터는 NULL 로 초기화.
+		newPtr->nextPtr = NULL; // 다음 노드를 가리키는 포인터는 NULL 로 초기화.
 
 		// if queue is empty, insert at head
 		if (isEmpty(*headPtr)) {   // head 포인터가 NULL 이라면 = 큐가 비어있다면
