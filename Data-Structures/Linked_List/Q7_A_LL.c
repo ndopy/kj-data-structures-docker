@@ -84,46 +84,34 @@ int main()
 }
 
 ////////////////////////////////////////////////////////////////////////
-static ListNode* newHeadOfReversedList = NULL;
 
 void RecursiveReverse(ListNode **ptrHead)
 {
-	ListNode *current_node = *ptrHead;
-
-	// 기저 조건
-	// 1. 리스트가 비어있는 경우 (NULL 포인터에 도달)
-	// 2. 현재 노드가 리스트의 마지막 노드일 경우 (next 가 NULL 인 경우)
-	if (current_node == NULL || current_node->next == NULL) {
-		// 현재 노드가 마지막 노드라면, 이 노드가 역방향 리스트의 새로운 head 이다.
-		if (current_node != NULL) {
-			newHeadOfReversedList = current_node;
-		}
-		return; // 재귀 종료
+	if (*ptrHead == NULL || (*ptrHead)->next == NULL) {
+		return;
 	}
 
-	// 다음 노드를 저장해두기
-	ListNode *next_node = current_node->next;
+	ListNode* first = *ptrHead;
+	ListNode* rest = first->next;
 
-	// 재귀 호출하기
-	RecursiveReverse(&next_node);
+	RecursiveReverse(&rest);
 
-	// 포인터 뒤집기 (재귀 호출이 돌아올 때)
-	// 현재 노드의 다음 노드가 이제 current_node 를 가리키게 한다.
-	// ex. 2 -> 3 이었다면 3 -> 2 로 만든다.
-	current_node->next->next = current_node;
+	first->next->next = first;
+	first->next = NULL;
 
-	// current_node 의 next 를 NULL 로 설정해서 원래 연결을 끊어서 순환을 방지한다.
-	// ex. 3 -> 2 로 만들었어도 아직 2 -> 3 으로도 연결되어 있으므로 이것을 끊는다.
-	current_node->next = NULL;
-
-	// 최종 head 포인터 업데이트
-	// -> ptrHead 가 ll.head 였을 때만, 즉 최초 호출에만 실행한다.
-	if (*ptrHead == current_node) {			// current_node 는 최초 호출 시 ll.head 가 가리키는 노드였다.
-		*ptrHead = newHeadOfReversedList;   // newHeadOfReversedList 는 재귀의 가장 깊은 곳에서 설정된 최종 새로운 head 이다.
-	}
+	*ptrHead = rest;
 }
 
-//////////////////////////////////////////////////////////////////////////////////
+/**
+ * @brief Prints the items of the linked list in order from head to tail.
+ *
+ * This function traverses through the linked list starting from the head
+ * and prints each item. If the provided linked list is empty,
+ * it prints "Empty". If the linked list itself is NULL, the function
+ * returns without any output.
+ *
+ * @param ll Pointer to the linked list to be printed.
+ */
 
 void printList(LinkedList *ll){
 
