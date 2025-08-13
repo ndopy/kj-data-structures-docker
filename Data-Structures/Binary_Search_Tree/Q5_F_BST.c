@@ -89,9 +89,39 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void postOrderIterativeS2(BSTNode *root)
-{
-	 /* add your code here */
+void postOrderIterativeS2(BSTNode *root) {
+	if (root == NULL) return;
+
+	Stack stack;
+	stack.top = NULL;
+
+	Stack result;				// 결과를 담을 스택
+	result.top = NULL;
+
+	// root 노드를 넣는다.
+	push(&stack, root);
+
+	while (!isEmpty(&stack)) {
+		// 스택에서 꺼내서 result 에 넣는다.
+		BSTNode* current = pop(&stack);
+		push(&result, current);
+
+		// current 의 왼쪽 자식 노드가 있다면 스택에 담는다.
+		if (current->left != NULL) {
+			push(&stack, current->left);
+		}
+
+		// current 의 오른쪽 자식 노드가 있다면 스택에 담는다.
+		if (current->right != NULL) {
+			push(&stack, current->right);
+		}
+	}
+
+	// result 에서 순서대로 꺼낸다.
+	while (!isEmpty(&result)) {
+		BSTNode* bst_node = pop(&result);
+		printf("%d ", bst_node->item);
+	}
 }
 
 /* Given a binary search tree and a key, this function
